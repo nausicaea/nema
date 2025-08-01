@@ -1,0 +1,7 @@
+.DS_Store
+._*
+.envrc
+.direnv/
+target/
+tests/
+.idea/
