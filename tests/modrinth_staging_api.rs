@@ -1,8 +1,5 @@
 use modrinth::{
-    USER_AGENT,
-    business_logic::{http_client, process_manifest},
-    modrinth::api::MODRINTH_STAGING_BASE_URL,
-    spec::{Manifest, Project, Spec},
+    business_logic::{http_client, process_manifest}, modrinth::api::MODRINTH_STAGING_BASE_URL, spec::{manifest::{Manifest, Project}, Spec}, USER_AGENT
 };
 use reqwest::{Client, Url};
 use rstest::{fixture, rstest};
