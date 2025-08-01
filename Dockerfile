@@ -43,7 +43,5 @@ ENV MINECRAFT_VERSION="1.21.1"
 ENV RUST_LOG="info,modrinth=debug"
 COPY --from=builder --chmod=0755 /artefacts/modrinth /usr/local/bin/modrinth
 WORKDIR /artefacts
-RUN chown 10001:10001 /artefacts; chmod 0777 /artefacts
-USER 10001:10001
 ENTRYPOINT ["/usr/local/bin/modrinth"]
 CMD ["--strict", "-s", "-o", "/artefacts", "--lockfile", "/artefacts/Modrinth.lock", "--manifest", "/artefacts/Modrinth.toml"]
