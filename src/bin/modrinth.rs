@@ -16,9 +16,6 @@ struct Args {
     /// If enabled, force server-only manifests
     #[arg(short, long)]
     server_only: bool,
-    /// Specify the Minecraft version (default from environment variable "MINECRAFT_VERSION")
-    #[arg(short, long, env = "MINECRAFT_VERSION", default_value = "1.21.1")]
-    minecraft_version: String,
     /// Specify the destination for downloaded artefacts (default is the current working directory)
     #[arg(short, long)]
     output: Option<PathBuf>,
@@ -98,7 +95,6 @@ async fn inner_main(args: &Args) -> Result<()> {
 
     // Construct the specification.
     let spec = Spec {
-        minecraft_version: args.minecraft_version.clone(),
         server_only: args.server_only,
         manifest: manifest.clone(),
         lockfile,

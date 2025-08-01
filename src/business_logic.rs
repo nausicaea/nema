@@ -346,7 +346,7 @@ async fn collect_version(
         &spec.modrinth_api_url,
         &project.id,
         loader,
-        &spec.minecraft_version,
+        &spec.manifest.minecraft_version,
     )
     .await?;
 

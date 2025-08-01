@@ -55,21 +55,24 @@ impl<S: AsRef<str>> PartialEq<S> for Loader {
     }
 }
 
-#[derive(Debug, Default, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize)]
 pub struct Manifest {
+    pub minecraft_version: String,
     pub datapack: BTreeMap<String, Project>,
     pub fabric: BTreeMap<String, Project>,
 }
 
 impl Manifest {
-    pub fn new<S, T, I, J>(datapack: I, fabric: I) -> Manifest
+    pub fn new<S, T, U, I, J>(minecraft_version: U, datapack: I, fabric: I) -> Manifest
     where
         S: AsRef<str>,
         T: AsRef<str>,
+        U: AsRef<str>,
         I: IntoIterator<Item = S>,
         J: IntoIterator<Item = T>,
     {
         Manifest {
+            minecraft_version: minecraft_version.as_ref().to_string(),
             datapack: datapack
                 .into_iter()
                 .map(|s| (s.as_ref().to_string(), Project::default()))
@@ -90,6 +93,16 @@ impl Manifest {
 
     pub fn is_empty(&self) -> bool {
         self.datapack.is_empty() && self.fabric.is_empty()
+    }
+}
+
+impl Default for Manifest {
+    fn default() -> Self {
+        Manifest {
+            minecraft_version: "1.21.1".to_string(),
+            datapack: BTreeMap::default(),
+            fabric: BTreeMap::default(),
+        }
     }
 }
 

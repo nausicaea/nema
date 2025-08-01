@@ -12,7 +12,6 @@ pub mod manifest;
 #[derive(Debug)]
 pub struct Spec {
     pub modrinth_api_url: Url,
-    pub minecraft_version: String,
     pub server_only: bool,
     pub manifest: Manifest,
     pub lockfile: LockfileV1,
@@ -23,7 +22,6 @@ impl Default for Spec {
     fn default() -> Self {
         Spec {
             modrinth_api_url: Url::parse(MODRINTH_PROD_BASE_URL).expect("a valid absolute URL"),
-            minecraft_version: "1.21.1".into(),
             server_only: true,
             manifest: Manifest::default(),
             lockfile: LockfileV1::default(),
