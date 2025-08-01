@@ -14,7 +14,7 @@ use tokio_stream::StreamExt;
 use tokio_util::io::ReaderStream;
 use tracing::{debug, instrument, warn};
 
-use crate::spec::{Artefact, Loader};
+use crate::spec::{lockfile::Artefact, manifest::Loader};
 
 use super::model::{File as ModrinthFile, Project, Version};
 

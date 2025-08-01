@@ -14,7 +14,6 @@ use tokio::{
 };
 use tracing::{debug, instrument, warn};
 
-use crate::spec::{Loader, Manifest, Project};
 use crate::{
     modrinth::{
         api::{download_file, request_project, request_versions},
@@ -23,7 +22,7 @@ use crate::{
             Project as ModrinthProject, Version,
         },
     },
-    spec::{Artefact, LockfileV1, Spec},
+    spec::{lockfile::{Artefact, LockfileV1}, manifest::{Loader, Manifest, Project}, Spec},
 };
 
 fn most_recent_version(versions: &[Version]) -> Option<&Version> {
@@ -347,7 +346,7 @@ async fn collect_version(
         &spec.modrinth_api_url,
         &project.id,
         loader,
-        &spec.minecraft_version,
+        &spec.manifest.minecraft_version,
     )
     .await?;
 

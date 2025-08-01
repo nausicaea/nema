@@ -1,8 +1,5 @@
 use modrinth::{
-    USER_AGENT,
-    business_logic::{http_client, process_manifest},
-    modrinth::api::MODRINTH_STAGING_BASE_URL,
-    spec::{Manifest, Project, Spec},
+    business_logic::{http_client, process_manifest}, modrinth::api::MODRINTH_STAGING_BASE_URL, spec::{manifest::{Manifest, Project}, Spec}, USER_AGENT
 };
 use reqwest::{Client, Url};
 use rstest::{fixture, rstest};
@@ -32,9 +29,9 @@ async fn lockfile_generation(
 ) {
     let spec = Spec {
         modrinth_api_url: modrinth_staging_api,
-        minecraft_version: "1.21.5".into(),
         manifest: Manifest {
-            fabric: vec!["frog"]
+            minecraft_version: "1.8.9".into(),
+            fabric: vec!["soundfix"]
                 .into_iter()
                 .map(|p| (p.to_string(), Project::default()))
                 .collect(),
@@ -54,8 +51,8 @@ async fn lockfile_generation(
 #[tokio::test]
 async fn project_denylisting(client: Client, #[from(tempdir)] output: TempDir) {
     let spec = Spec {
-        minecraft_version: "1.21.8".into(),
         manifest: Manifest {
+            minecraft_version: "1.21.8".into(),
             fabric: vec!["dynamic-lights"]
                 .into_iter()
                 .map(|p| (p.to_string(), Project::default()))
@@ -81,8 +78,8 @@ async fn project_denylisting(client: Client, #[from(tempdir)] output: TempDir) {
 #[tokio::test]
 async fn lockfile_includes_dependencies(client: Client, #[from(tempdir)] output: TempDir) {
     let spec = Spec {
-        minecraft_version: "1.21.8".into(),
         manifest: Manifest {
+            minecraft_version: "1.21.8".into(),
             fabric: vec!["dynamic-lights"]
                 .into_iter()
                 .map(|p| (p.to_string(), Project::default()))
@@ -103,8 +100,8 @@ async fn lockfile_includes_dependencies(client: Client, #[from(tempdir)] output:
 #[tokio::test]
 async fn lockfile_works_for_datapacks(client: Client, #[from(tempdir)] output: TempDir) {
     let spec = Spec {
-        minecraft_version: "1.21.1".into(),
         manifest: Manifest {
+            minecraft_version: "1.21.1".into(),
             datapack: vec!["veinminer"]
                 .into_iter()
                 .map(|p| (p.to_string(), Project::default()))
