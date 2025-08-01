@@ -29,9 +29,9 @@ async fn lockfile_generation(
 ) {
     let spec = Spec {
         modrinth_api_url: modrinth_staging_api,
-        minecraft_version: "1.21.5".into(),
+        minecraft_version: "1.8.9".into(),
         manifest: Manifest {
-            fabric: vec!["frog"]
+            fabric: vec!["soundfix"]
                 .into_iter()
                 .map(|p| (p.to_string(), Project::default()))
                 .collect(),
