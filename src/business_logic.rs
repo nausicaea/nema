@@ -33,6 +33,7 @@ fn primary_files(version: &Version) -> Vec<&ModrinthFile> {
     version.files.iter().filter(|f| f.primary).collect()
 }
 
+#[allow(clippy::too_many_arguments)]
 #[instrument(skip(client, dest, artefacts))]
 async fn download_primary_files(
     client: &Client,
