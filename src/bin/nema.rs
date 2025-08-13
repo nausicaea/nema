@@ -1,6 +1,6 @@
-use modrinth::USER_AGENT;
-use modrinth::business_logic::{http_client, load_lockfile, load_manifest, process_manifest, save_lockfile};
-use modrinth::spec::Spec;
+use nema::USER_AGENT;
+use nema::business_logic::{http_client, load_lockfile, load_manifest, process_manifest, save_lockfile};
+use nema::spec::Spec;
 use std::path::PathBuf;
 use tracing::{error, instrument, warn};
 use tracing_subscriber::{EnvFilter, layer::SubscriberExt};

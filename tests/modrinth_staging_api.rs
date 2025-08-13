@@ -1,4 +1,4 @@
-use modrinth::{
+use nema::{
     USER_AGENT,
     business_logic::{http_client, process_manifest},
     modrinth::api::MODRINTH_STAGING_BASE_URL,
