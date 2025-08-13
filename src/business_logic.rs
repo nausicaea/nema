@@ -18,11 +18,14 @@ use crate::{
     modrinth::{
         api::{download_file, request_project, request_version, request_versions},
         model::{
-            Dependency, DependencyType, File as ModrinthFile, PlatformRequirement,
-            Project as ModrinthProject, Version,
+            Dependency, DependencyType, File as ModrinthFile, PlatformRequirement, Project as ModrinthProject, Version,
         },
     },
-    spec::{lockfile::{Artefact, LockfileV1}, manifest::{Loader, Manifest, Project}, Spec},
+    spec::{
+        Spec,
+        lockfile::{Artefact, LockfileV1},
+        manifest::{Loader, Manifest, Project},
+    },
 };
 
 fn most_recent_version(versions: &[Version]) -> Option<&Version> {
@@ -48,9 +51,21 @@ async fn download_primary_files(
     let mut lock_data = Vec::new();
     for artefact in artefacts {
         let artefact_info = if no_download {
-            (dest.join(&artefact.filename), Artefact::new(project_id, project_slug, version_id, version_number, artefact)?)
+            (
+                dest.join(&artefact.filename),
+                Artefact::new(project_id, project_slug, version_id, version_number, artefact)?,
+            )
         } else {
-            download_file(client, project_id, project_slug, version_id, version_number, artefact, dest).await?
+            download_file(
+                client,
+                project_id,
+                project_slug,
+                version_id,
+                version_number,
+                artefact,
+                dest,
+            )
+            .await?
         };
         lock_data.push(artefact_info);
     }
@@ -67,7 +82,13 @@ fn required_dependencies(version: &Version) -> Vec<&Dependency> {
 }
 
 #[instrument(skip_all)]
-pub async fn process_manifest(client: &Client, spec: &Spec, output: &Path, no_download: bool, strict: bool) -> Result<LockfileV1> {
+pub async fn process_manifest(
+    client: &Client,
+    spec: &Spec,
+    output: &Path,
+    no_download: bool,
+    strict: bool,
+) -> Result<LockfileV1> {
     // Process datapacks
     let datapack = process_manifest_for_loader(client, spec, Loader::Datapack, output, no_download, strict).await?;
 
@@ -82,12 +103,9 @@ pub async fn load_manifest(file_path: &Path) -> Result<Manifest> {
     let file_path = file_path
         .canonicalize()
         .with_context(|| format!("{}: canonicalizing the manifest path", file_path.display()))?;
-    let input_file = File::open(&file_path).await.with_context(|| {
-        format!(
-            "{}: opening the intput file for reading",
-            file_path.display()
-        )
-    })?;
+    let input_file = File::open(&file_path)
+        .await
+        .with_context(|| format!("{}: opening the intput file for reading", file_path.display()))?;
     let mut input_buf = BufReader::new(input_file);
     let mut input_data = Vec::new();
     input_buf
@@ -103,13 +121,13 @@ pub async fn load_manifest(file_path: &Path) -> Result<Manifest> {
 #[instrument(skip(manifest))]
 pub async fn load_lockfile(manifest: &Manifest, file_path: &Path) -> Result<LockfileV1> {
     let lockfile = if file_path.is_file() {
-        let file_path = file_path.canonicalize().with_context(|| {
-            format!("{}: canonicalizing the lockfile path", file_path.display())
-        })?;
+        let file_path = file_path
+            .canonicalize()
+            .with_context(|| format!("{}: canonicalizing the lockfile path", file_path.display()))?;
 
-        let lockfile_file = File::open(&file_path).await.with_context(|| {
-            format!("{}: opening the lockfile for reading", file_path.display())
-        })?;
+        let lockfile_file = File::open(&file_path)
+            .await
+            .with_context(|| format!("{}: opening the lockfile for reading", file_path.display()))?;
         let mut lockfile_buf = BufReader::new(lockfile_file);
         let mut lockfile_data = Vec::new();
         lockfile_buf
@@ -125,7 +143,9 @@ pub async fn load_lockfile(manifest: &Manifest, file_path: &Path) -> Result<Lock
         LockfileV1::default()
     };
 
-    if !(lockfile_is_up_to_date(manifest, &lockfile, Loader::Datapack) && lockfile_is_up_to_date(manifest, &lockfile, Loader::Fabric)) {
+    if !(lockfile_is_up_to_date(manifest, &lockfile, Loader::Datapack)
+        && lockfile_is_up_to_date(manifest, &lockfile, Loader::Fabric))
+    {
         debug!("stale lockfile, discarding its entire contents");
         return Ok(LockfileV1::default());
     }
@@ -135,24 +155,35 @@ pub async fn load_lockfile(manifest: &Manifest, file_path: &Path) -> Result<Lock
 
 fn lockfile_is_up_to_date(manifest: &Manifest, lockfile: &LockfileV1, loader: Loader) -> bool {
     let loader_lockfile = lockfile.get(loader);
-    let lockfile_project: HashSet<&str> = loader_lockfile.iter().flat_map(|a| [a.project_id.as_str(), a.project_slug.as_str()].into_iter()).collect();
-    let lockfile_version: HashSet<&str> = loader_lockfile.iter().flat_map(|a| [a.version_id.as_str(), a.version_number.as_str()].into_iter()).collect();
+    let lockfile_project: HashSet<&str> = loader_lockfile
+        .iter()
+        .flat_map(|a| [a.project_id.as_str(), a.project_slug.as_str()].into_iter())
+        .collect();
+    let lockfile_version: HashSet<&str> = loader_lockfile
+        .iter()
+        .flat_map(|a| [a.version_id.as_str(), a.version_number.as_str()].into_iter())
+        .collect();
 
     // The lockfile is up-to-date if all entries in the manifest are represented in the
     // lockfile. Meaning, that each manifest project _and_ its version must be found in the
     // lockfile. Wildcard versions (i.e. `None`-valued manifest versions) are treated as a
     // found within the lockfile.
-    manifest.get(loader)
-        .all(|(n, p)| lockfile_project.contains(n.as_str()) && { if let Some(v) = &p.version {lockfile_version.contains(v.as_str())} else {true}})
+    manifest.get(loader).all(|(n, p)| {
+        lockfile_project.contains(n.as_str()) && {
+            if let Some(v) = &p.version {
+                lockfile_version.contains(v.as_str())
+            } else {
+                true
+            }
+        }
+    })
 }
-
 
 #[instrument(skip(lockfile))]
 pub async fn save_lockfile(lockfile: &LockfileV1, file_path: &Path) -> Result<()> {
     debug!("saving the lockfile");
 
-    let lockfile_data = toml::to_string(lockfile)
-        .with_context(|| format!("{lockfile:?}: serializing the lockfile"))?;
+    let lockfile_data = toml::to_string(lockfile).with_context(|| format!("{lockfile:?}: serializing the lockfile"))?;
 
     let lockfile_file = File::create(file_path)
         .await
@@ -164,12 +195,10 @@ pub async fn save_lockfile(lockfile: &LockfileV1, file_path: &Path) -> Result<()
         .await
         .with_context(|| format!("{}: writing the lockfile", file_path.display()))?;
 
-    lockfile_buf.flush().await.with_context(|| {
-        format!(
-            "{}: flushing the lockfile write buffer",
-            file_path.display()
-        )
-    })?;
+    lockfile_buf
+        .flush()
+        .await
+        .with_context(|| format!("{}: flushing the lockfile write buffer", file_path.display()))?;
 
     Ok(())
 }
@@ -182,8 +211,8 @@ pub fn http_client(user_agent: &str, api_token: Option<&str>) -> Result<Client> 
             let mut headers = HeaderMap::new();
             if let Some(token) = api_token {
                 headers.insert(AUTHORIZATION, {
-                    let mut bearer = HeaderValue::from_str(&format!("Bearer {token}"))
-                        .context("encoding the bearer API token")?;
+                    let mut bearer =
+                        HeaderValue::from_str(&format!("Bearer {token}")).context("encoding the bearer API token")?;
                     bearer.set_sensitive(true);
                     bearer
                 });
@@ -244,10 +273,7 @@ async fn download_artefacts(
         lock_data_all.append(&mut lock_data);
     }
 
-    Ok(lock_data_all
-        .into_iter()
-        .map(|(_, artefact)| artefact)
-        .collect())
+    Ok(lock_data_all.into_iter().map(|(_, artefact)| artefact).collect())
 }
 
 fn validate_server_compatibility(project: &ModrinthProject) -> Result<()> {
@@ -264,10 +290,7 @@ fn validate_server_compatibility(project: &ModrinthProject) -> Result<()> {
 
         // Warning
         (_, Required) => {
-            warn!(
-                "project {}/{} requires a client-side install",
-                project.id, project.slug
-            );
+            warn!("project {}/{} requires a client-side install", project.id, project.slug);
         }
         (Unknown, _) | (Required, Unknown) | (Optional, Unknown) => warn!(
             "project {}/{} lists either server- or client-side installation requirements as unknown",
@@ -282,7 +305,12 @@ fn validate_server_compatibility(project: &ModrinthProject) -> Result<()> {
 }
 
 #[instrument(skip_all)]
-async fn collect_versions(client: &Client, spec: &Spec, loader: Loader, strict: bool) -> Result<HashSet<(ModrinthProject, Version)>> {
+async fn collect_versions(
+    client: &Client,
+    spec: &Spec,
+    loader: Loader,
+    strict: bool,
+) -> Result<HashSet<(ModrinthProject, Version)>> {
     if !spec.lockfile.get(loader).is_empty() {
         debug!("using locked versions");
         return collect_lockfile_versions(client, spec, loader).await;
@@ -293,11 +321,21 @@ async fn collect_versions(client: &Client, spec: &Spec, loader: Loader, strict: 
 }
 
 #[instrument(skip_all)]
-async fn collect_lockfile_versions(client: &Client, spec: &Spec, loader: Loader) -> Result<HashSet<(ModrinthProject, Version)>> {
+async fn collect_lockfile_versions(
+    client: &Client,
+    spec: &Spec,
+    loader: Loader,
+) -> Result<HashSet<(ModrinthProject, Version)>> {
     let mut locked_versions = HashSet::new();
     for artefact in spec.lockfile.get(loader) {
         let p = request_project(client, &spec.modrinth_api_url, &artefact.project_id).await?;
-        let v = request_version(client, &spec.modrinth_api_url, &artefact.project_id, &artefact.version_id).await?;
+        let v = request_version(
+            client,
+            &spec.modrinth_api_url,
+            &artefact.project_id,
+            &artefact.version_id,
+        )
+        .await?;
         locked_versions.insert((p, v));
     }
 
@@ -305,7 +343,12 @@ async fn collect_lockfile_versions(client: &Client, spec: &Spec, loader: Loader)
 }
 
 #[instrument(skip_all)]
-async fn collect_manifest_versions(client: &Client, spec: &Spec, loader: Loader, strict: bool) -> Result<HashSet<(ModrinthProject, Version)>> {
+async fn collect_manifest_versions(
+    client: &Client,
+    spec: &Spec,
+    loader: Loader,
+    strict: bool,
+) -> Result<HashSet<(ModrinthProject, Version)>> {
     let mut bfs_queue: VecDeque<(ModrinthProject, Version)> = VecDeque::new();
     for (project_name, project_spec) in spec.manifest.get(loader) {
         if let (project, Some(version)) =
@@ -361,7 +404,10 @@ async fn collect_version_for_project(
 
     // Verify that the project is not in the denylist
     if spec.denylist.contains(&project.id) || spec.denylist.contains(&project.slug) {
-        info!("project {}/{} is disallowed from being installed", &project.slug, &project.id);
+        info!(
+            "project {}/{} is disallowed from being installed",
+            &project.slug, &project.id
+        );
         return Ok((project, None));
     }
 

@@ -20,11 +20,18 @@ pub struct Artefact {
 }
 
 impl Artefact {
-    pub fn new(project_id: &str, project_slug: &str, version_id: &str, version_number: &str, file: &File) -> anyhow::Result<Self> {
-        let sha512_hash =
-            file.hashes.sha512.clone().ok_or_else(|| {
-                anyhow!("missing SHA-512 file hash in the response from Modrinth",)
-            })?;
+    pub fn new(
+        project_id: &str,
+        project_slug: &str,
+        version_id: &str,
+        version_number: &str,
+        file: &File,
+    ) -> anyhow::Result<Self> {
+        let sha512_hash = file
+            .hashes
+            .sha512
+            .clone()
+            .ok_or_else(|| anyhow!("missing SHA-512 file hash in the response from Modrinth",))?;
 
         Ok(Artefact {
             project_id: project_id.to_string(),
@@ -39,11 +46,7 @@ impl Artefact {
 
 impl std::fmt::Display for Artefact {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}/{}/{}",
-            self.project_id, self.version_id, self.filename
-        )
+        write!(f, "{}/{}/{}", self.project_id, self.version_id, self.filename)
     }
 }
 
@@ -92,4 +95,3 @@ impl<'a> LockfileIndexV1<'a> {
         self.0.contains(&v)
     }
 }
-
