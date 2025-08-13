@@ -12,11 +12,11 @@ use tokio::{
     fs::File,
     io::{AsyncReadExt, AsyncWriteExt, BufReader, BufWriter},
 };
-use tracing::{debug, instrument, warn};
+use tracing::{debug, info, instrument, warn};
 
 use crate::{
     modrinth::{
-        api::{download_file, request_project, request_versions},
+        api::{download_file, request_project, request_version, request_versions},
         model::{
             Dependency, DependencyType, File as ModrinthFile, PlatformRequirement,
             Project as ModrinthProject, Version,
@@ -278,10 +278,33 @@ fn validate_server_compatibility(project: &ModrinthProject) -> Result<()> {
 
 #[instrument(skip_all)]
 async fn collect_versions(client: &Client, spec: &Spec, loader: Loader, strict: bool) -> Result<HashSet<(ModrinthProject, Version)>> {
+    if !spec.lockfile.get(loader).is_empty() {
+        debug!("using locked versions");
+        return collect_lockfile_versions(client, spec, loader).await;
+    }
+
+    debug!("no locked versions available, using the manifest");
+    collect_manifest_versions(client, spec, loader, strict).await
+}
+
+#[instrument(skip_all)]
+async fn collect_lockfile_versions(client: &Client, spec: &Spec, loader: Loader) -> Result<HashSet<(ModrinthProject, Version)>> {
+    let mut locked_versions = HashSet::new();
+    for artefact in spec.lockfile.get(loader) {
+        let p = request_project(client, &spec.modrinth_api_url, &artefact.project_id).await?;
+        let v = request_version(client, &spec.modrinth_api_url, &artefact.project_id, &artefact.version_id).await?;
+        locked_versions.insert((p, v));
+    }
+
+    Ok(locked_versions)
+}
+
+#[instrument(skip_all)]
+async fn collect_manifest_versions(client: &Client, spec: &Spec, loader: Loader, strict: bool) -> Result<HashSet<(ModrinthProject, Version)>> {
     let mut bfs_queue: VecDeque<(ModrinthProject, Version)> = VecDeque::new();
     for (project_name, project_spec) in spec.manifest.get(loader) {
         if let (project, Some(version)) =
-            collect_version(client, spec, loader, project_name, project_spec, strict).await?
+            collect_version_for_project(client, spec, loader, project_name, project_spec, strict).await?
         {
             bfs_queue.push_back((project, version));
         }
@@ -301,7 +324,7 @@ async fn collect_versions(client: &Client, spec: &Spec, loader: Loader, strict: 
             };
 
             let (dep_project, dep_version) = if let Some(pi) = &dep.project_id {
-                match collect_version(client, spec, loader, pi, &dep_spec, strict).await {
+                match collect_version_for_project(client, spec, loader, pi, &dep_spec, strict).await {
                     Ok((project, Some(version))) => (project, version),
                     Ok((_, None)) => continue,
                     Err(e) => return Err(e),
@@ -321,7 +344,7 @@ async fn collect_versions(client: &Client, spec: &Spec, loader: Loader, strict: 
 }
 
 #[instrument(skip(client, spec))]
-async fn collect_version(
+async fn collect_version_for_project(
     client: &Client,
     spec: &Spec,
     loader: Loader,
@@ -333,6 +356,7 @@ async fn collect_version(
 
     // Verify that the project is not in the denylist
     if spec.denylist.contains(&project.id) || spec.denylist.contains(&project.slug) {
+        info!("project {}/{} is disallowed from being installed", &project.slug, &project.id);
         return Ok((project, None));
     }
 
