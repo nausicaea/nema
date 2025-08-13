@@ -1,0 +1,359 @@
+[[datapack]]
+project_id = "WTzuSu8P"
+project_slug = "sleep"
+version_id = "YhaQQVoR"
+version_number = "v.3.2.2"
+filename = "Sleep-[1.21]-v.3.2.2.zip"
+checksum = "5baa75522b02cac6eab1549f52d9045418fa84808bc2a0ca2d39b2cb3e5d410ffa34ecc281dbf81ab87c19b4520965201c7fcf61277f07c86df4518c6066d202"
+
+[[datapack]]
+project_id = "3WdnBc3t"
+project_slug = "navigable-rivers"
+version_id = "2QogLpDN"
+version_number = "1.4.1"
+filename = "Navigable Rivers v1.4.1.zip"
+checksum = "113098256c2b85d3869acf742a386f7efa01885bee00e287f000dfbb431bff61c25386ecd65fd80f148df73a4ec75b0e10b8f4ee67b4ae8ea1d2733d7e011b7f"
+
+[[datapack]]
+project_id = "4pbhwMQz"
+project_slug = "william-wythers-overhauled-overworld-(datapack)"
+version_id = "dBiwUSDa"
+version_number = "2.5.5"
+filename = "William Wythers' Overhauled Overworld v2.5.5.zip"
+checksum = "91f450488dcc9897f3126a6624d846b0bbd31a85c7f7c43ca9b0a8f50046f1efc74960cf4a681af6edad7c89b05d2e8dbcfa28f4258922abcedf8a0d83118f3c"
+
+[[datapack]]
+project_id = "LlKsFkYG"
+project_slug = "vegan-recipes"
+version_id = "uAFGUdlA"
+version_number = "1.6"
+filename = "notblue's Vegan Recipes v1.6 (1.21-1.21.6).zip"
+checksum = "d8d1933eb19c464b14faa894a0318f86ecd127bd4d98a3bc8e54e21595bc937f31a16a70f8865cffbb7ed428cd0d463f2f734a2bf7f6f7256d7829f60cab33f8"
+
+[[datapack]]
+project_id = "EwuS4aoq"
+project_slug = "cliffs-and-coves"
+version_id = "WMG9c49Y"
+version_number = "1.3.1"
+filename = "Cliffs and Coves v1.3.1.zip"
+checksum = "737bfc638944b0a5d3657b52731fdb9f9275081fd2c8f40721c5f41796bb208c23e378559b7785f37f61fcd3f931cad47ea47a358d52774df36e4ee4af13ebf3"
+
+[[datapack]]
+project_id = "9fsxv7Yp"
+project_slug = "new-in-town"
+version_id = "opKD6kgn"
+version_number = "2.17.3"
+filename = "new-in-town-by-kanokarob-v2.17.3.zip"
+checksum = "d11fcaf57adab4daea53cc152ba380b899c0e1eaafde688f9bbb651a97923d4700f5b0f8acc1fad8c5528e67679ea4b78b9faf127ed2640c4c981b48d553059a"
+
+[[datapack]]
+project_id = "YYpAchyL"
+project_slug = "new-in-town-dimensions"
+version_id = "bqQWjvWt"
+version_number = "0.4"
+filename = "nit-dimensions-by-kanokarob-v0.4.zip"
+checksum = "2cb584a337bb4ce45091aa26b3cbcafa4331c49b6e28ee6b58630d971efb29440ceff462398fefaa91a1bb43baaa13dd755afc6cf880b53d8856f920b38ef03e"
+
+[[datapack]]
+project_id = "kmhI7qev"
+project_slug = "towering-tepuis"
+version_id = "2AUql9Ts"
+version_number = "1.2.1"
+filename = "Towering Tepuis v1.2.1.zip"
+checksum = "7b4c10b6780c2e079f6c2697295df432f06707bc5f704f607415ddce39d6f2c8b52e7e73e1bc0e06b8489572afe9f351c30e1a5fec600656fa723b8032e319ad"
+
+[[fabric]]
+project_id = "6h6n9XJ9"
+project_slug = "tpa"
+version_id = "Si2A8zdz"
+version_number = "1.3.1+mod"
+filename = "tpa-1.3.1.jar"
+checksum = "0d85e503194bca96a0ebd41b318167ce94b5e2dd383be092b7ba7fad9fe6c076533fbbaeb860a96311e989db52c319c7ef1cf3e6528004b8443bc5f030489628"
+
+[[fabric]]
+project_id = "NusMqsjF"
+project_slug = "stackdeobf"
+version_id = "pyiVLk9R"
+version_number = "1.4.3"
+filename = "StackDeobfuscatorFabric-1.4.3+08e71cc.jar"
+checksum = "ef851d54a60e223e90cfd21da91effcdc70175dd32b194366ca3ba29646c9ebdbfb60a1eaa88070c4e9f83bd654da1344e67226dfdf5c68140db4ef693361353"
+
+[[fabric]]
+project_id = "wGOr2JgV"
+project_slug = "mod-viewer"
+version_id = "9Iw7koI2"
+version_number = "1.9.0"
+filename = "modviewer-1.9.0.jar"
+checksum = "a79655ea88eb9187b694da9183d8c691fc21d704b0bbe42376d1da1c370660ccf2e236169815f42a8aca02ed3e7ddf827b2a891a5b70dfec5ef4df1e74363a06"
+
+[[fabric]]
+project_id = "codAaoxh"
+project_slug = "midnightlib"
+version_id = "vqqujBpd"
+version_number = "1.7.5+1.21.1-fabric"
+filename = "midnightlib-1.7.5-fabric+1.21.1.jar"
+checksum = "5cf7c714cdc6c915665a872debf15840b994aa0aab5f9fce0ae65d2f0eff7bf9fcd98fb776ac512a9e2da0effaaad468feb860386196bf2e52a22628977aa7f4"
+
+[[fabric]]
+project_id = "lWDHr9jE"
+project_slug = "tectonic"
+version_id = "mSYrCaov"
+version_number = "2.4.1a"
+filename = "tectonic-fabric-1.21.1-2.4.1a.jar"
+checksum = "a9dda4eb1912a724e1eff64ca70be9f165f9743e936dc703c42ebe2ecb4cfd1a66a68c22aafef08a95c832ce9eccf7cf8368c6e455756f9a50575520dd48191b"
+
+[[fabric]]
+project_id = "fQEb0iXm"
+project_slug = "krypton"
+version_id = "Acz3ttTp"
+version_number = "0.2.8"
+filename = "krypton-0.2.8.jar"
+checksum = "5f8cf96c79bfd4d893f1d70da582e62026bed36af49a7fa7b1e00fb6efb28d9ad6a1eec147020496b4fe38693d33fe6bfcd1eebbd93475612ee44290c2483784"
+
+[[fabric]]
+project_id = "GyrkNvLS"
+project_slug = "universal-perms"
+version_id = "CQw1V6ME"
+version_number = "1.0.6"
+filename = "UniversalPerms-1.0.6.jar"
+checksum = "5e3675875f18f09d3f95a2caa72094eb697c0949c91172e3b2d53ad0852e4aa815b9aeea041e68a9f4c4cb8bade3d015babfe3660c8ef493ba05def98d530e10"
+
+[[fabric]]
+project_id = "gWO6Zqey"
+project_slug = "vanilla-refresh"
+version_id = "kmDSUUKd"
+version_number = "1.4.26"
+filename = "vanilla-refresh-1.4.26_1.21.jar"
+checksum = "733a7faa95eaa8be79990ce0da207ba1e51a2d51b762957286811198d125eff47afce7c1345d15892093e2eb5d0d4e5cc1446374841d24e63cebdcc5ae0e6a9d"
+
+[[fabric]]
+project_id = "Jrmoreqs"
+project_slug = "advanced-backups"
+version_id = "WA3oNjMA"
+version_number = "3.7.1"
+filename = "AdvancedBackups-fabric-1.21-3.7.1.jar"
+checksum = "755bf9ab10599319aa46209502338af63157e4543f08853190f6b519bd83da8546adf99a0c3e3055d6c2dbbab4c56907cf4dde577d648e61b625d386801fddc4"
+
+[[fabric]]
+project_id = "Vebnzrzj"
+project_slug = "luckperms"
+version_id = "l47d4ZWk"
+version_number = "v5.4.140-fabric"
+filename = "LuckPerms-Fabric-5.4.140.jar"
+checksum = "386ff4d18981c830d21ddaa599d70c1c5430c1475e2c5960275bad535cbd572c77e38b3841f0a71e3ea4a795c56d45ff8c4a8dba3799dae26bff5a382c6e0a64"
+
+[[fabric]]
+project_id = "LPjGiSO4"
+project_slug = "nullscape"
+version_id = "GdvpapkA"
+version_number = "1.2.13"
+filename = "Nullscape_1.21.x_v1.2.13.jar"
+checksum = "869540da8f56885c576c8933f4b737599f6e724b3df7e5112e23d1b0d295f96035aab92090611332b2de46696c40092cee6d13cb9d34bc0c42dcc640d3feda67"
+
+[[fabric]]
+project_id = "9J7sCd3t"
+project_slug = "arcana-novum"
+version_id = "y1JxDI6U"
+version_number = "3.0.5+1.21.1"
+filename = "arcananovum-3.0.5+1.21.1.jar"
+checksum = "65530f5dc6a7f766ec15f1289a11e094a373d06c417e2996815717c6da3981e843c2ee1bcb424609977c3525e070a9dc6eea8a7edee7f865eff310b7b0cb3de5"
+
+[[fabric]]
+project_id = "uXXizFIs"
+project_slug = "ferrite-core"
+version_id = "bwKMSBhn"
+version_number = "7.0.2-hotfix-fabric"
+filename = "ferritecore-7.0.2-hotfix-fabric.jar"
+checksum = "ca975bd3708cd96d30cf1447ac8883572113562eb2dd697e60c1cf382d6b70d0b1a511fcbfd042c51b2cf5d5ffc718b847f845e4c8a3e421e8c9ee741119a421"
+
+[[fabric]]
+project_id = "nmDcB62a"
+project_slug = "modernfix"
+version_id = "xDJFoW9U"
+version_number = "5.24.3+mc1.21.1"
+filename = "modernfix-fabric-5.24.3+mc1.21.1.jar"
+checksum = "43a81e63638387701edc49aabbde9e293890165e6e3b2df378aeabf56ea41fd666c1841cfac488e8d723ee99a673e09de4cc37a3e2141e04216f4aad5254dae1"
+
+[[fabric]]
+project_id = "ohNO6lps"
+project_slug = "forge-config-api-port"
+version_id = "NZACeAT3"
+version_number = "v21.1.4-1.21.1-Fabric"
+filename = "ForgeConfigAPIPort-v21.1.4-1.21.1-Fabric.jar"
+checksum = "488937feba5ea256188c64e1a9651f6f231b07f4acef1dbe9144b54f25e7cf83d9ec5ebcb4d8bcedc6e6e33ce3251b729cb778ffb9f5cf6a407d6b42671344fd"
+
+[[fabric]]
+project_id = "Gi02250Z"
+project_slug = "almanac"
+version_id = "jmiXAuhO"
+version_number = "1.0.2"
+filename = "almanac-1.21.x-fabric-1.0.2.jar"
+checksum = "b392caa287b348019b588ad58cd01252433cb93a201d97aab66991bc81c344849667aa618d6277e4e0fa5d8e7e1296c14454f31242e47766b6713f923efe7f43"
+
+[[fabric]]
+project_id = "X30askCw"
+project_slug = "fabric-tps"
+version_id = "DfT5iBsb"
+version_number = "1.5.0"
+filename = "fabric_tps-1.21.1-1.5.0.jar"
+checksum = "7c50b490bb0444f674258a21319028c07921ffba64866136d863a5e71b54eb9444deb335763aeb8eaacc2b05954af3e8ebd26bb0779627e4078baf3174745368"
+
+[[fabric]]
+project_id = "m5NB7FJE"
+project_slug = "polydex"
+version_id = "rC5LgjE1"
+version_number = "1.2.6+1.21.1"
+filename = "polydex-1.2.6+1.21.1.jar"
+checksum = "ad56e6a0db41ac4d92ddd79512873025d7e7614e30f30a8f10a7e148e823da357c6bfa8281cb1becba1e9f3ae8569e50bbcfe403278b0f858a57b9a7b011b4dd"
+
+[[fabric]]
+project_id = "VSNURh3q"
+project_slug = "c2me-fabric"
+version_id = "oXr69pco"
+version_number = "0.3.0+alpha.0.320+1.21.1"
+filename = "c2me-fabric-mc1.21.1-0.3.0+alpha.0.320.jar"
+checksum = "5ae8ff5e2d6b849aee1e71ee5ec22f68c3713617b9e246de7fdfea8af8d7a84d63f2cb13ed0949dfb119c7d647295244b476d34c618baf3bed171e33fc3872d6"
+
+[[fabric]]
+project_id = "kPkTtp4N"
+project_slug = "coord-finder"
+version_id = "lGLXUnPw"
+version_number = "fabric-1.21.1-1.1.0"
+filename = "coordfinder-fabric-1.21.1-1.1.0.jar"
+checksum = "890247fcda69ed100af5b1460e89307ef95023fe565ecd2384c060cac6ac740e0372b4502ba7678ae3ac5ab8cd15b77db9f4f35607876818bfbf902ccc5fa675"
+
+[[fabric]]
+project_id = "xGdtZczs"
+project_slug = "polymer"
+version_id = "t55Wk2zK"
+version_number = "0.9.18+1.21.1"
+filename = "polymer-bundled-0.9.18+1.21.1.jar"
+checksum = "643ffa43335900821551970d3ba89dd878550441eb2b1b2c03f7e3fb79190dfae4ccd39b0ebff9c3f7c724e75c5352231112bc897d11a7b8219b0573053dd630"
+
+[[fabric]]
+project_id = "eYhgGSfC"
+project_slug = "server-ui-fix"
+version_id = "4SRhpfrW"
+version_number = "0.3.0+1.21"
+filename = "serveruifix-0.3.0+1.21.jar"
+checksum = "e6f9f2aff4365df92a6a8b11ec9545c0e49c1e0083176451d99d5fc01bca50be428d7f226b29553e6f26bb501f18a7d280587616d456c073a57e52a82fbf9d5d"
+
+[[fabric]]
+project_id = "mjYxrwYd"
+project_slug = "passivemobs"
+version_id = "RAoTWhlZ"
+version_number = "1.3.6"
+filename = "PassiveMobs-fabric-1.21.1-1.3.6.jar"
+checksum = "8263bbb24251b13fbe9331947840712a8741b4c62b9be81b0cd97a612228b6e8e7977c31ee040e9f143b33dba72c86a6cd2b78fc93fee00365671dfacc15d7eb"
+
+[[fabric]]
+project_id = "sGmHWmeL"
+project_slug = "mixintrace"
+version_id = "LGYOH4RN"
+version_number = "1.1.1+1.17"
+filename = "mixintrace-1.1.1+1.17.jar"
+checksum = "ea9034b60bc1c64629a9bcad2e619907692fe6e7464026236c55cc5a4892a20d21dd6318ad0380ab2ec245f7077939b6717d2ed58e00708c17470be14f5e0b5f"
+
+[[fabric]]
+project_id = "AVq17PqV"
+project_slug = "leaves-be-gone"
+version_id = "QPhlCsMN"
+version_number = "v21.1.0-1.21.1-Fabric"
+filename = "LeavesBeGone-v21.1.0-1.21.1-Fabric.jar"
+checksum = "4321aaeb60b149d9712e07ed1685d391f3cd594d8f97448252f9ef6deac655c6fe1d75d362c7dac18f35885896b86b71ca5207e08e0acb01bd84b668d41f1020"
+
+[[fabric]]
+project_id = "5710VC7f"
+project_slug = "polydecorations"
+version_id = "R5oq1hmE"
+version_number = "0.4.5+1.21.1"
+filename = "polydecorations-0.4.5+1.21.1.jar"
+checksum = "7cc181752df0033364efe9e7fc6ce24af7497ef140838023b3135b2288045da56311e68518d320fbb2f4d2eca317db75d7966ea8228bfdf77c2cf6bdae1dfe8b"
+
+[[fabric]]
+project_id = "oXzIQwRj"
+project_slug = "smsn"
+version_id = "g86uQzu9"
+version_number = "1.2.5+mc1.21.1"
+filename = "smsn-fabric-1.2.5+mc1.21.1.jar"
+checksum = "a5defbc0719cf1b081de9e66d9ba8b39a69fe156969f1e804d9a1d419c31e6e67c9e132f5253e1a4de340a66b2f52b95a74deb497f0c05daf334a8a4295b8bff"
+
+[[fabric]]
+project_id = "7YjclEGc"
+project_slug = "dynamic-lights"
+version_id = "sDqqHcFe"
+version_number = "1.8.8+mod"
+filename = "dynamiclights-v1.8.8-mc1.17-1.21.7-mod.jar"
+checksum = "2d052b2b51e29ed7cac8998d357a65617356af3ec4840aef0ce6631ab23d557f8a3e4ec50728d23fdf5e11e6a7594daf5c51c1b87f2955db7333bfbf0e26ee20"
+
+[[fabric]]
+project_id = "P7dR8mSH"
+project_slug = "fabric-api"
+version_id = "19viawBV"
+version_number = "0.116.4+1.21.1"
+filename = "fabric-api-0.116.4+1.21.1.jar"
+checksum = "95060def77b54ba6c6eb5af45b478ec6926f33f145d8f3933cd90cb2b6ab6913459d3d0afa3afcb01fca07d714628414a41ee8b6845261e88d92b83bfc668ad8"
+
+[[fabric]]
+project_id = "QAGBst4M"
+project_slug = "puzzles-lib"
+version_id = "oYPPpKUB"
+version_number = "v21.1.36-1.21.1-Fabric"
+filename = "PuzzlesLib-v21.1.36-1.21.1-Fabric.jar"
+checksum = "1c94c796cea2349d995b627ce4f35efdda619e832812d830446ca83b7cd92ec94ef75c333a7711b420134d071120508e8f391fbcabdd2f936ff54a036f2a6aee"
+
+[[fabric]]
+project_id = "cjSHexOj"
+project_slug = "polydex-bridge"
+version_id = "1SDiwoUn"
+version_number = "1.0.1+mc.1.21.1"
+filename = "polydex-bridge-1.0.1+mc.1.21.1.jar"
+checksum = "cbc439c618a179b3eca2771a2c891270c8d32951adf2b474bb33fd8ff1243399a9c3b62d738db7687ae05e8760ba0fe17e41f3a656081fc25c5c1cbe9e079763"
+
+[[fabric]]
+project_id = "MikpSrAF"
+project_slug = "polyfactory"
+version_id = "EysgX1e4"
+version_number = "0.4.5+1.21.1"
+filename = "polyfactory-0.4.5+1.21.1.jar"
+checksum = "2748ac30abeec040709d21ec98e688e4739fc36ba484822312db12776cc779eccd5b7e49c45b01be9ee3b60d1f6b3374df8e10f47dd2caa85096ac04cf7351ed"
+
+[[fabric]]
+project_id = "vE2FN5qn"
+project_slug = "lmd"
+version_id = "Wb7jqi55"
+version_number = "1.5.0"
+filename = "letmedespawn-1.21.x-fabric-1.5.0.jar"
+checksum = "a1fc557b9985954258f30fa32d4134867d6cd1d045147171a89a711d63b1b94f5dd58564aa3060ce10e8d81c2be1d8bae7ff828ee9c24a1c1b9f8398564936a9"
+
+[[fabric]]
+project_id = "KuNKN7d2"
+project_slug = "noisium"
+version_id = "4sGQgiu2"
+version_number = "2.3.0+mc1.21-1.21.1"
+filename = "noisium-fabric-2.3.0+mc1.21-1.21.1.jar"
+checksum = "606ba78cf7f30d99e417c96aa042f600c1b626ed9c783919496d139de650013f1434fcf93545782e3889660322837ce6e85530d9e1a5cc20f9ad161357ede43e"
+
+[[fabric]]
+project_id = "j5niDupl"
+project_slug = "goml-reserved"
+version_id = "N4XW15zD"
+version_number = "1.13.1+1.21"
+filename = "goml-1.13.1+1.21.jar"
+checksum = "f3d858d4ee5a58b31e6f4de1b1999c9b2b836facb9c94f71539937981b744d0a34db67b6ed4b6e06d8ed842488dec527793884557a636b6faa5375e923f870f5"
+
+[[fabric]]
+project_id = "gvQqBUqZ"
+project_slug = "lithium"
+version_id = "MM5BBBOK"
+version_number = "mc1.21.1-0.15.0-fabric"
+filename = "lithium-fabric-0.15.0+mc1.21.1.jar"
+checksum = "fd3215501ebe8f6590cdf1ccc58182873cad8d74ebc4b0b3a2f5724748b9cb04c2b967503c072311dfbca9ba856195dc4662f3395a071b294fa0acfdd2a86bf6"
+
+[[fabric]]
+project_id = "G9rHXWug"
+project_slug = "sessility"
+version_id = "geMIgJNq"
+version_number = "0.6.2"
+filename = "sessility-0.6.2.jar"
+checksum = "3cc674d3e08524bbf496be324b5164d95043f5f252026aad74f5b68e95330179393d409520de49780e6fbf6dcf3ec69d41ea5ff5c48aa33a106f43df81f4b430"
