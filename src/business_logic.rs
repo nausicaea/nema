@@ -426,14 +426,13 @@ async fn collect_version_for_project(
     .await?;
 
     // Retain only versions that match the spec and the lockfile
-    let lockfile = spec.lockfile.index(loader);
     versions.retain(|v| {
         // Keep versions whose version number or version id match the corresponding project spec
         // from the manifest (this is an Option type, so iter() will iterate over only one element)
-        project_spec.version.iter().all(|pv| pv == &v.version_number || pv == &v.id) &&
-
-        // Keep versions whose version id and project id match those found in the lockfile
-        lockfile.contains((&v.project_id, &v.id))
+        project_spec
+            .version
+            .iter()
+            .all(|pv| pv == &v.version_number || pv == &v.id)
     });
 
     let Some(version) = most_recent_version(&versions) else {
