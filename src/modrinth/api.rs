@@ -74,15 +74,9 @@ pub async fn download_file(
     version_number: &str,
     artefact: &ModrinthFile,
     dest: &Path,
-    no_download: bool,
 ) -> Result<(PathBuf, Artefact)> {
     let artefact_path = dest.join(&artefact.filename);
     let artefact_info = Artefact::new(project_id, project_slug, version_id, version_number, artefact)?;
-
-    if no_download {
-        debug!("downloads are disabled, so the artefact path will not exist");
-        return Ok((artefact_path, artefact_info));
-    }
 
     if !artefact_path.exists() {
         let url = Url::parse(&artefact.url).with_context(|| artefact_info.clone())?;

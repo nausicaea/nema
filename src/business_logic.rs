@@ -46,7 +46,11 @@ async fn download_primary_files(
 ) -> Result<Vec<(PathBuf, Artefact)>> {
     let mut lock_data = Vec::new();
     for artefact in artefacts {
-        let artefact_info = download_file(client, project_id, project_slug, version_id, version_number, artefact, dest, no_download).await?;
+        let artefact_info = if no_download {
+            (dest.join(&artefact.filename), Artefact::new(project_id, project_slug, version_id, version_number, artefact)?)
+        } else {
+            download_file(client, project_id, project_slug, version_id, version_number, artefact, dest).await?
+        };
         lock_data.push(artefact_info);
     }
 
