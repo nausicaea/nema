@@ -22,9 +22,7 @@ impl<'de> Deserialize<'de> for Project {
         match ProjectHelper::deserialize(deserializer)? {
             ProjectHelper::String(s) if s == "*" => Ok(Project { version: None }),
             ProjectHelper::String(s) => Ok(Project { version: Some(s) }),
-            ProjectHelper::Table { version } => Ok(Project {
-                version: Some(version),
-            }),
+            ProjectHelper::Table { version } => Ok(Project { version: Some(version) }),
         }
     }
 }
@@ -105,4 +103,3 @@ impl Default for Manifest {
         }
     }
 }
-

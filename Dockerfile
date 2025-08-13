@@ -34,14 +34,14 @@ COPY --link src ./src
 RUN --mount=type=cache,target=/root/.cargo cargo fetch
 RUN --mount=type=cache,target=/root/.cargo --mount=type=cache,target=/src/target cargo build --locked --release
 WORKDIR /artefacts
-RUN --mount=type=cache,target=/src/target cp /src/target/release/modrinth /artefacts/modrinth
+RUN --mount=type=cache,target=/src/target cp /src/target/release/nema /artefacts/nema
 
 ### Downloads all selected mods and datapacks from Modrinth
 FROM docker.io/library/alpine:3.22
 VOLUME ["/artefacts"]
 ENV MINECRAFT_VERSION="1.21.1"
-ENV RUST_LOG="info,modrinth=debug"
-COPY --from=builder --chmod=0755 /artefacts/modrinth /usr/local/bin/modrinth
+ENV RUST_LOG="info,nema=debug"
+COPY --from=builder --chmod=0755 /artefacts/nema /usr/local/bin/nema
 WORKDIR /artefacts
-ENTRYPOINT ["/usr/local/bin/modrinth"]
+ENTRYPOINT ["/usr/local/bin/nema"]
 CMD ["--strict", "-s", "-o", "/artefacts", "--lockfile", "/artefacts/Modrinth.lock", "--manifest", "/artefacts/Modrinth.toml"]

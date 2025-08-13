@@ -1,5 +1,11 @@
-use modrinth::{
-    business_logic::{http_client, process_manifest}, modrinth::api::MODRINTH_STAGING_BASE_URL, spec::{manifest::{Manifest, Project}, Spec}, USER_AGENT
+use nema::{
+    USER_AGENT,
+    business_logic::{http_client, process_manifest},
+    modrinth::api::MODRINTH_STAGING_BASE_URL,
+    spec::{
+        Spec,
+        manifest::{Manifest, Project},
+    },
 };
 use reqwest::{Client, Url};
 use rstest::{fixture, rstest};
@@ -22,11 +28,7 @@ fn tempdir() -> TempDir {
 
 #[rstest]
 #[tokio::test]
-async fn lockfile_generation(
-    client: Client,
-    modrinth_staging_api: Url,
-    #[from(tempdir)] output: TempDir,
-) {
+async fn lockfile_generation(client: Client, modrinth_staging_api: Url, #[from(tempdir)] output: TempDir) {
     let spec = Spec {
         modrinth_api_url: modrinth_staging_api,
         manifest: Manifest {
@@ -66,12 +68,7 @@ async fn project_denylisting(client: Client, #[from(tempdir)] output: TempDir) {
         .await
         .unwrap();
 
-    assert!(
-        !lockfile
-            .fabric
-            .iter()
-            .any(|a| spec.denylist.contains(&a.project_id))
-    );
+    assert!(!lockfile.fabric.iter().any(|a| spec.denylist.contains(&a.project_id)));
 }
 
 #[rstest]

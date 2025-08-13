@@ -1,6 +1,7 @@
 [package]
-name = "modrinth"
-version = "0.2.1"
+name = "nema"
+description = "Collect Modrinth mods based on a manifest and a lockfile"
+version = "0.3.0"
 authors = ["Eleanor Young <developer@nausicaea.net>"]
 edition = "2024"
 

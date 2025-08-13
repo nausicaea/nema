@@ -1,8 +1,6 @@
-use modrinth::USER_AGENT;
-use modrinth::business_logic::{
-    http_client, load_lockfile, load_manifest, process_manifest, save_lockfile,
-};
-use modrinth::spec::Spec;
+use nema::USER_AGENT;
+use nema::business_logic::{http_client, load_lockfile, load_manifest, process_manifest, save_lockfile};
+use nema::spec::Spec;
 use std::path::PathBuf;
 use tracing::{error, instrument, warn};
 use tracing_subscriber::{EnvFilter, layer::SubscriberExt};
@@ -12,6 +10,7 @@ use anyhow::{Context, Result};
 use clap::Parser;
 
 #[derive(Debug, Parser)]
+#[command(version, about, long_about = None)]
 struct Args {
     /// If enabled, force server-only manifests
     #[arg(short, long)]
@@ -67,8 +66,7 @@ fn modrinth_api_token() -> Result<Option<String>> {
         Ok(pat) => Some(pat),
         Err(std::env::VarError::NotPresent) => None,
         Err(e) => {
-            return Err(Into::<anyhow::Error>::into(e))
-                .context("reading the environment variable 'MODRINTH_PAT'");
+            return Err(Into::<anyhow::Error>::into(e)).context("reading the environment variable 'MODRINTH_PAT'");
         }
     };
 
@@ -102,8 +100,7 @@ async fn inner_main(args: &Args) -> Result<()> {
     };
 
     // Create the HTTP client for accessing the REST API
-    let client = http_client(USER_AGENT, modrinth_api_token.as_deref())
-        .context("creating the HTTP REST API client")?;
+    let client = http_client(USER_AGENT, modrinth_api_token.as_deref()).context("creating the HTTP REST API client")?;
 
     let lock = process_manifest(&client, &spec, &output_path, args.no_download, args.strict)
         .await

@@ -31,12 +31,7 @@ pub async fn request_project(client: &Client, base_url: &Url, project_id: &str) 
 }
 
 #[instrument(skip(client, base_url))]
-pub async fn request_version(
-    client: &Client,
-    base_url: &Url,
-    project_id: &str,
-    version_id: &str,
-) -> Result<Version> {
+pub async fn request_version(client: &Client, base_url: &Url, project_id: &str, version_id: &str) -> Result<Version> {
     let url = base_url.join(&format!("/v2/project/{project_id}/version/{version_id}"))?;
     let request = client.get(url).build()?;
     let version: Version = client.execute(request).await?.json().await?;
@@ -74,26 +69,14 @@ pub async fn download_file(
     version_number: &str,
     artefact: &ModrinthFile,
     dest: &Path,
-    no_download: bool,
 ) -> Result<(PathBuf, Artefact)> {
     let artefact_path = dest.join(&artefact.filename);
     let artefact_info = Artefact::new(project_id, project_slug, version_id, version_number, artefact)?;
 
-    if no_download {
-        debug!("downloads are disabled, so the artefact path will not exist");
-        return Ok((artefact_path, artefact_info));
-    }
-
     if !artefact_path.exists() {
         let url = Url::parse(&artefact.url).with_context(|| artefact_info.clone())?;
-        let request = client
-            .get(url)
-            .build()
-            .with_context(|| artefact_info.clone())?;
-        let response = client
-            .execute(request)
-            .await
-            .with_context(|| artefact_info.clone())?;
+        let request = client.get(url).build().with_context(|| artefact_info.clone())?;
+        let response = client.execute(request).await.with_context(|| artefact_info.clone())?;
 
         validate_content_type(&response).with_context(|| artefact_info.clone())?;
 
@@ -109,12 +92,7 @@ pub async fn download_file(
                 .with_context(|| artefact_info.clone())?;
             let mut buf_writer = BufWriter::new(artefact_file);
             buf_writer
-                .write_all(
-                    &response
-                        .bytes()
-                        .await
-                        .with_context(|| artefact_info.clone())?,
-                )
+                .write_all(&response.bytes().await.with_context(|| artefact_info.clone())?)
                 .await
                 .with_context(|| artefact_info.clone())?;
         }
@@ -153,9 +131,7 @@ fn validate_content_type(response: &Response) -> Result<()> {
         .ok_or_else(|| anyhow!("missing Content-Type header"))?;
 
     if !(content_type == "application/java-archive" || content_type == "application/zip") {
-        return Err(anyhow!(
-            "the content type must be either a JAR archive or a ZIP file"
-        ));
+        return Err(anyhow!("the content type must be either a JAR archive or a ZIP file"));
     }
 
     Ok(())
