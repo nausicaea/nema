@@ -10,6 +10,7 @@ use anyhow::{Context, Result};
 use clap::Parser;
 
 #[derive(Debug, Parser)]
+#[command(version, about, long_about = None)]
 struct Args {
     /// If enabled, force server-only manifests
     #[arg(short, long)]
