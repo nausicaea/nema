@@ -95,7 +95,11 @@ pub async fn process_manifest(
     // Process fabric mods
     let fabric = process_manifest_for_loader(client, spec, Loader::Fabric, output, no_download, strict).await?;
 
-    Ok(LockfileV1 { datapack, fabric })
+    Ok(LockfileV1 {
+        minecraft_version: spec.manifest.minecraft_version.clone(),
+        datapack,
+        fabric,
+    })
 }
 
 #[instrument]
@@ -143,9 +147,7 @@ pub async fn load_lockfile(manifest: &Manifest, file_path: &Path) -> Result<Lock
         LockfileV1::default()
     };
 
-    if !(lockfile_is_up_to_date(manifest, &lockfile, Loader::Datapack)
-        && lockfile_is_up_to_date(manifest, &lockfile, Loader::Fabric))
-    {
+    if !lockfile_is_up_to_date(manifest, &lockfile) {
         debug!("stale lockfile, discarding its entire contents");
         return Ok(LockfileV1::default());
     }
@@ -153,14 +155,17 @@ pub async fn load_lockfile(manifest: &Manifest, file_path: &Path) -> Result<Lock
     Ok(lockfile)
 }
 
-fn lockfile_is_up_to_date(manifest: &Manifest, lockfile: &LockfileV1, loader: Loader) -> bool {
-    let loader_lockfile = lockfile.get(loader);
-    let lockfile_project: HashSet<&str> = loader_lockfile
-        .iter()
+fn lockfile_is_up_to_date(manifest: &Manifest, lockfile: &LockfileV1) -> bool {
+    if manifest.minecraft_version != lockfile.minecraft_version {
+        return false;
+    }
+
+    let lockfile_project: HashSet<&str> = lockfile
+        .artefacts()
         .flat_map(|a| [a.project_id.as_str(), a.project_slug.as_str()].into_iter())
         .collect();
-    let lockfile_version: HashSet<&str> = loader_lockfile
-        .iter()
+    let lockfile_version: HashSet<&str> = lockfile
+        .artefacts()
         .flat_map(|a| [a.version_id.as_str(), a.version_number.as_str()].into_iter())
         .collect();
 
@@ -168,7 +173,7 @@ fn lockfile_is_up_to_date(manifest: &Manifest, lockfile: &LockfileV1, loader: Lo
     // lockfile. Meaning, that each manifest project _and_ its version must be found in the
     // lockfile. Wildcard versions (i.e. `None`-valued manifest versions) are treated as a
     // found within the lockfile.
-    manifest.get(loader).all(|(n, p)| {
+    manifest.projects().all(|(n, p)| {
         lockfile_project.contains(n.as_str()) && {
             if let Some(v) = &p.version {
                 lockfile_version.contains(v.as_str())

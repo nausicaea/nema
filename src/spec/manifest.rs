@@ -82,6 +82,10 @@ impl Manifest {
         }
     }
 
+    pub fn projects(&self) -> impl Iterator<Item = (&String, &Project)> {
+        self.datapack.iter().chain(self.fabric.iter())
+    }
+
     pub fn get(&self, loader: Loader) -> impl Iterator<Item = (&String, &Project)> {
         match loader {
             Loader::Datapack => self.datapack.iter(),
