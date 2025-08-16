@@ -411,7 +411,7 @@ async fn collect_version_for_project(
     if spec.denylist.contains(&project.id) || spec.denylist.contains(&project.slug) {
         info!(
             "project {}/{} is disallowed from being installed",
-            &project.slug, &project.id
+            &project.id, &project.slug
         );
         return Ok((project, None));
     }
