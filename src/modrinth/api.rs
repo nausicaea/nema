@@ -84,6 +84,10 @@ pub async fn download_file(
 
         // Write the body data to the destination
         {
+            if !dest.is_dir() {
+                std::fs::create_dir_all(dest).context("creating the output directory")?;
+            }
+
             let artefact_file = OpenOptions::new()
                 .write(true)
                 .create_new(true)

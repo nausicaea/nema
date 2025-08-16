@@ -87,15 +87,19 @@ pub async fn process_manifest(
     spec: &Spec,
     output: &Path,
     no_download: bool,
-    strict: bool,
+    lax: bool,
 ) -> Result<LockfileV1> {
     // Process datapacks
-    let datapack = process_manifest_for_loader(client, spec, Loader::Datapack, output, no_download, strict).await?;
+    let datapack = process_manifest_for_loader(client, spec, Loader::Datapack, output, no_download, lax).await?;
 
     // Process fabric mods
-    let fabric = process_manifest_for_loader(client, spec, Loader::Fabric, output, no_download, strict).await?;
+    let fabric = process_manifest_for_loader(client, spec, Loader::Fabric, output, no_download, lax).await?;
 
-    Ok(LockfileV1 { datapack, fabric })
+    Ok(LockfileV1 {
+        minecraft_version: spec.manifest.minecraft_version.clone(),
+        datapack,
+        fabric,
+    })
 }
 
 #[instrument]
@@ -143,9 +147,7 @@ pub async fn load_lockfile(manifest: &Manifest, file_path: &Path) -> Result<Lock
         LockfileV1::default()
     };
 
-    if !(lockfile_is_up_to_date(manifest, &lockfile, Loader::Datapack)
-        && lockfile_is_up_to_date(manifest, &lockfile, Loader::Fabric))
-    {
+    if !lockfile_is_up_to_date(manifest, &lockfile) {
         debug!("stale lockfile, discarding its entire contents");
         return Ok(LockfileV1::default());
     }
@@ -153,14 +155,17 @@ pub async fn load_lockfile(manifest: &Manifest, file_path: &Path) -> Result<Lock
     Ok(lockfile)
 }
 
-fn lockfile_is_up_to_date(manifest: &Manifest, lockfile: &LockfileV1, loader: Loader) -> bool {
-    let loader_lockfile = lockfile.get(loader);
-    let lockfile_project: HashSet<&str> = loader_lockfile
-        .iter()
+fn lockfile_is_up_to_date(manifest: &Manifest, lockfile: &LockfileV1) -> bool {
+    if manifest.minecraft_version != lockfile.minecraft_version {
+        return false;
+    }
+
+    let lockfile_project: HashSet<&str> = lockfile
+        .artefacts()
         .flat_map(|a| [a.project_id.as_str(), a.project_slug.as_str()].into_iter())
         .collect();
-    let lockfile_version: HashSet<&str> = loader_lockfile
-        .iter()
+    let lockfile_version: HashSet<&str> = lockfile
+        .artefacts()
         .flat_map(|a| [a.version_id.as_str(), a.version_number.as_str()].into_iter())
         .collect();
 
@@ -168,7 +173,7 @@ fn lockfile_is_up_to_date(manifest: &Manifest, lockfile: &LockfileV1, loader: Lo
     // lockfile. Meaning, that each manifest project _and_ its version must be found in the
     // lockfile. Wildcard versions (i.e. `None`-valued manifest versions) are treated as a
     // found within the lockfile.
-    manifest.get(loader).all(|(n, p)| {
+    manifest.projects().all(|(n, p)| {
         lockfile_project.contains(n.as_str()) && {
             if let Some(v) = &p.version {
                 lockfile_version.contains(v.as_str())
@@ -232,18 +237,11 @@ async fn process_manifest_for_loader(
     loader: Loader,
     output: &Path,
     no_download: bool,
-    strict: bool,
+    lax: bool,
 ) -> Result<Vec<Artefact>> {
-    let loader_str = loader.to_string();
-    let output = output.join(&loader_str);
+    let versions = collect_versions(client, spec, loader, lax).await?;
 
-    if !output.is_dir() {
-        std::fs::create_dir_all(&output).context("creating the output directory")?;
-    }
-
-    let versions = collect_versions(client, spec, loader, strict).await?;
-
-    let lock_data = download_artefacts(client, versions.iter(), &output, no_download).await?;
+    let lock_data = download_artefacts(client, versions.iter(), &output.join(loader.to_string()), no_download).await?;
 
     Ok(lock_data)
 }
@@ -309,7 +307,7 @@ async fn collect_versions(
     client: &Client,
     spec: &Spec,
     loader: Loader,
-    strict: bool,
+    lax: bool,
 ) -> Result<HashSet<(ModrinthProject, Version)>> {
     if !spec.lockfile.get(loader).is_empty() {
         debug!("using locked versions");
@@ -317,7 +315,7 @@ async fn collect_versions(
     }
 
     debug!("no locked versions available, using the manifest");
-    collect_manifest_versions(client, spec, loader, strict).await
+    collect_manifest_versions(client, spec, loader, lax).await
 }
 
 #[instrument(skip_all)]
@@ -347,12 +345,12 @@ async fn collect_manifest_versions(
     client: &Client,
     spec: &Spec,
     loader: Loader,
-    strict: bool,
+    lax: bool,
 ) -> Result<HashSet<(ModrinthProject, Version)>> {
     let mut bfs_queue: VecDeque<(ModrinthProject, Version)> = VecDeque::new();
     for (project_name, project_spec) in spec.manifest.get(loader) {
         if let (project, Some(version)) =
-            collect_version_for_project(client, spec, loader, project_name, project_spec, strict).await?
+            collect_version_for_project(client, spec, loader, project_name, project_spec, lax).await?
         {
             bfs_queue.push_back((project, version));
         }
@@ -372,7 +370,7 @@ async fn collect_manifest_versions(
             };
 
             let (dep_project, dep_version) = if let Some(pi) = &dep.project_id {
-                match collect_version_for_project(client, spec, loader, pi, &dep_spec, strict).await {
+                match collect_version_for_project(client, spec, loader, pi, &dep_spec, lax).await {
                     Ok((project, Some(version))) => (project, version),
                     Ok((_, None)) => continue,
                     Err(e) => return Err(e),
@@ -398,7 +396,7 @@ async fn collect_version_for_project(
     loader: Loader,
     project_name: &str,
     project_spec: &Project,
-    strict: bool,
+    lax: bool,
 ) -> Result<(ModrinthProject, Option<Version>)> {
     let project = request_project(client, &spec.modrinth_api_url, project_name).await?;
 
@@ -406,7 +404,7 @@ async fn collect_version_for_project(
     if spec.denylist.contains(&project.id) || spec.denylist.contains(&project.slug) {
         info!(
             "project {}/{} is disallowed from being installed",
-            &project.slug, &project.id
+            &project.id, &project.slug
         );
         return Ok((project, None));
     }
@@ -436,11 +434,11 @@ async fn collect_version_for_project(
     });
 
     let Some(version) = most_recent_version(&versions) else {
-        if strict {
-            return Err(anyhow!("{project_name}: could not find a compatible version"));
-        } else {
+        if lax {
             warn!("could not find a compatible version");
             return Ok((project, None));
+        } else {
+            return Err(anyhow!("{project_name}: could not find a compatible version"));
         }
     };
 

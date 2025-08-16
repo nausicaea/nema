@@ -52,11 +52,16 @@ impl std::fmt::Display for Artefact {
 
 #[derive(Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 pub struct LockfileV1 {
+    pub minecraft_version: String,
     pub datapack: Vec<Artefact>,
     pub fabric: Vec<Artefact>,
 }
 
 impl LockfileV1 {
+    pub fn artefacts(&self) -> impl Iterator<Item = &Artefact> {
+        self.datapack.iter().chain(self.fabric.iter())
+    }
+
     pub fn get(&self, loader: Loader) -> &[Artefact] {
         match loader {
             Loader::Datapack => self.datapack.as_slice(),
