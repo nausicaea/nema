@@ -239,16 +239,9 @@ async fn process_manifest_for_loader(
     no_download: bool,
     lax: bool,
 ) -> Result<Vec<Artefact>> {
-    let loader_str = loader.to_string();
-    let output = output.join(&loader_str);
-
-    if !output.is_dir() {
-        std::fs::create_dir_all(&output).context("creating the output directory")?;
-    }
-
     let versions = collect_versions(client, spec, loader, lax).await?;
 
-    let lock_data = download_artefacts(client, versions.iter(), &output, no_download).await?;
+    let lock_data = download_artefacts(client, versions.iter(), &output.join(loader.to_string()), no_download).await?;
 
     Ok(lock_data)
 }
