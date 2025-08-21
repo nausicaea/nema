@@ -151,7 +151,7 @@ impl LockfileV1 {
         }
     }
 
-    pub fn index(&self, loader: Loader) -> LockfileIndexV1 {
+    pub fn index(&self, loader: Loader) -> LockfileIndexV1<'_> {
         match loader {
             Loader::Datapack => LockfileIndexV1(
                 self.datapack
