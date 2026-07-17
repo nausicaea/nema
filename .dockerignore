@@ -1,7 +1,11 @@
 .DS_Store
 ._*
 .envrc
-.direnv/
-target/
-tests/
-.idea/
+.direnv
+tests
+.idea
+.git
+target
+.github
+README*
+LICENSE*
