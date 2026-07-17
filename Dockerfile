@@ -10,13 +10,15 @@ ARG OPENSSL_INCLUDE_DIR=/usr/include
 ARG CARGO_REGISTRY=/root/.cargo/registry
 RUN apk add --no-cache openssl-libs-static openssl-dev musl-dev
 WORKDIR /src
-COPY --link Cargo.toml .
-COPY --link Cargo.lock .
+COPY --link Cargo.toml Cargo.lock ./
+RUN mkdir -p src \
+    && printf 'fn main() {}\n' > src/main.rs \
+    && cargo build --locked --release \
+    && rm -rf src
 COPY --link src ./src
-RUN --mount=type=cache,target=/root/.cargo cargo fetch
-RUN --mount=type=cache,target=/root/.cargo --mount=type=cache,target=/src/target cargo build --locked --release
+RUN cargo build --locked --release
 WORKDIR /artefacts
-RUN --mount=type=cache,target=/src/target cp /src/target/release/nema /artefacts/nema
+RUN cp /src/target/release/nema /artefacts/nema
 
 ### Downloads all selected mods and datapacks from Modrinth
 FROM docker.io/library/alpine:3.22
