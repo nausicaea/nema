@@ -21,7 +21,7 @@ WORKDIR /artefacts
 RUN cp /src/target/release/nema /artefacts/nema
 
 ### Downloads all selected mods and datapacks from Modrinth
-FROM docker.io/library/alpine:3.22
+FROM docker.io/library/alpine:3.24
 VOLUME ["/artefacts"]
 ENV MINECRAFT_VERSION="1.21.1"
 ENV RUST_LOG="info,nema=debug"
