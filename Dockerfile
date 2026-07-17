@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 ### Builds the Modrinth downloader
-FROM docker.io/library/rust:1.88.0-alpine3.22 AS builder
+FROM docker.io/library/rust:1.97.0-alpine3.22 AS builder
 ARG TARGETARCH
 ARG TARGETOS
 ARG OPENSSL_STATIC=1
