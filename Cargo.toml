@@ -12,7 +12,7 @@ clap = { version = "4.5.41", features = ["derive", "env", "help", "std"] }
 hex = { version = "0.4.3", features = ["alloc"] }
 reqwest = { version = "0.13.0", features = ["json", "default-tls"] }
 serde = { version = "1.0.219", features = ["derive"] }
-sha2 = { version = "0.10.9" }
+sha2 = { version = "0.11.0" }
 tokio = { version = "1.47.0", features = ["macros", "rt", "rt-multi-thread", "fs", "io-util"] }
 tokio-stream = { version = "0.1.17" }
 tokio-util = { version = "0.7.15", features = ["io"] }
