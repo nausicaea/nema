@@ -71,9 +71,7 @@ jobs:
           cache-from: type=gha,scope=nema-build
           cache-to: type=gha,mode=max,scope=nema-build
           sbom: true
-          platforms:
-            - linux/amd64
-            - linux/aarch64
+          platforms: "linux/amd64,linux/aarch64"
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
