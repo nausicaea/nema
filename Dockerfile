@@ -38,7 +38,7 @@ LABEL \
     org.opencontainers.image.description="Utility for specifying and downloading Modrinth mods" \
     org.opencontainers.image.authors="nausicaea" \
     org.opencontainers.image.source="https://github.com/nausicaea/nema" \
-    org.opencontainers.image.version="0.5.0" \
+    org.opencontainers.image.version="0.5.1" \
     org.opencontainers.image.licenses="GPL-3.0-only"
 ENV MINECRAFT_VERSION="1.21.1" \
     RUST_LOG="info,nema=debug"
