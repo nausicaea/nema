@@ -1,4 +1,6 @@
 fileignoreconfig:
   - filename: .pre-commit-config.yaml
     checksum: 9658c589b847e76c7b12f62939e4f733b6b42e5d85818b437eb2241fecd62963
+  - filename: Dockerfile
+    checksum: 9b36959904387167fbf8fccd85f3e0c0791165954ee59c786f9f342ec93af149
 version: "1.0"
