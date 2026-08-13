@@ -6,23 +6,23 @@ authors = ["Eleanor Young <developer@nausicaea.net>"]
 edition = "2024"
 
 [dependencies]
-anyhow = { version = "1.0.98" }
-chrono = { version = "0.4.41", features = ["serde"] }
-clap = { version = "4.5.41", features = ["derive", "env", "help", "std"] }
-hex = { version = "0.4.3", features = ["alloc"] }
-reqwest = { version = "0.13.0", features = ["json", "default-tls"] }
-serde = { version = "1.0.219", features = ["derive"] }
-sha2 = { version = "0.11.0" }
-tokio = { version = "1.47.0", features = ["macros", "rt", "rt-multi-thread", "fs", "io-util"] }
-tokio-stream = { version = "0.1.17" }
-tokio-util = { version = "0.7.15", features = ["io"] }
-toml = { version = "1.0.0", features = ["serde", "display", "parse"] }
-tracing = { version = "0.1.41", features = ["attributes"] }
-tracing-subscriber = { version = "0.3.19", features = ["env-filter", "fmt"] }
+anyhow = { version = "=1.0.104" }
+chrono = { version = "=0.4.45", features = ["serde"] }
+clap = { version = "=4.6.5", features = ["derive", "env", "help", "std"] }
+hex = { version = "=0.4.3", features = ["alloc"] }
+reqwest = { version = "=0.13.4", features = ["json", "default-tls"] }
+serde = { version = "=1.0.229", features = ["derive"] }
+sha2 = { version = "=0.11.0" }
+tokio = { version = "=1.53.1", features = ["macros", "rt", "rt-multi-thread", "fs", "io-util"] }
+tokio-stream = { version = "=0.1.19" }
+tokio-util = { version = "=0.7.19", features = ["io"] }
+toml = { version = "=1.1.4+spec-1.1.0", features = ["serde", "display", "parse"] }
+tracing = { version = "=0.1.44", features = ["attributes"] }
+tracing-subscriber = { version = "=0.3.23", features = ["env-filter", "fmt"] }
 
 [dev-dependencies]
-rstest = "0.26.1"
-tempfile = "3.20.0"
+rstest = "=0.26.1"
+tempfile = "=3.27.0"
 
 [profile.release]
 panic = "abort"
